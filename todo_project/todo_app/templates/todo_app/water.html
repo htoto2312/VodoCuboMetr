@@ -1,0 +1,98 @@
+{% extends 'todo_app/base.html' %}
+
+{% load static %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+<script src="{% static 'todo_app/js/notes.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .button {
+        background-color: #40E0D0; /* Зеленый */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 25px;
+        margin: 6px 2px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Дата</th>
+        <th>Куби</th>
+        <th>Ціна</th>
+        <th>Сплачено (True/False)</th>
+        <th>Кнопка оплати</th>
+    </tr>
+{% for water in waters %}
+    <tr>
+        <td>{{ water.created_at }}</td>
+        <td>{{ water.cubometrs }}</td>
+        <td>{{ water.price_cb }}</td>
+        <td>{{ water.is_paid }}</td>
+        <td>
+            {% if not water.is_paid %}
+            <a href="{% url 'pay' water.id %}" class="button">Сплатити</a>
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+
+</table>
+{% if unpaid_exists %}
+<a href="{% url 'pay_all' %}" class="button" >Сплатити все</a>
+{% endif %}
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">Добавити</button>
+</form>
+{% endblock content %}
+
+{% block footer %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock footer %}

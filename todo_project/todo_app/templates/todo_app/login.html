@@ -1,0 +1,25 @@
+{% extends 'todo_app/base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div class="form-box">
+		<form action="" method="POST">
+			{% csrf_token %}
+			<div class="username bar">
+				<img class="input-icon" src="{% static 'todo_app/images/user_icon.svg' %}" alt="user">
+				{{ form.username }}
+			</div>
+			<div class="password bar">
+				<img class="input-icon" src="{% static 'todo_app/images/key_icon.svg' %}" alt="password">
+				{{ form.password }}
+			</div>
+			{% if form.errors %}
+			{{ form.errors.items }}
+			{% endif %}
+			<button id="login_btn" class="input-btn" type="submit">Увійти</button>
+			<div class="error-box" style="display: none"></div>
+			<p>Ще не з нами? <a class="decorated_link" href="{% url 'signup' %}">Зарегистрируйтесь!</a></p>
+		</form>
+	</div>
+{% endblock content %}

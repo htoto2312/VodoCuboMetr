@@ -1,0 +1,53 @@
+{% extends 'todo_app/base.html' %}
+
+{% load static %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+<script src="{% static 'todo_app/js/notes.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 10%;
+    }
+    .round {
+        border-radius: 50%;
+    }
+    body {
+        font-family: Arial, sans-serif;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+    .profile-info {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .profile-info p {
+        font-size: 18px;
+        line-height: 1.6;
+    }
+
+</style>
+<img src="{% static 'todo_app/images/какойто_чел.png' %}" alt="Користувач" class="center round">
+<h1>Профіль користувача</h1>
+<div class="profile-info">
+    <p>Nickname: {{ user.username }}</p>
+    <p>Електронна адреса: {{ user.email }}</p>
+    <p>Ім'я користувача: {{ user.first_name }}</p>
+    <p>Фамілія: {{ user.last_name }}</p>
+    <p>Дата регистрації: {{ user.date_joined }}</p>
+</div>
+{% endblock content %}
+
